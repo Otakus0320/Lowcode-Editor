@@ -1,7 +1,9 @@
+import LowcodeEditor from "./LowcodeEditor/LowcodeEditor.tsx";
+
 const App = () => {
     return(
         <div>
-            Hello World!
+            <LowcodeEditor />
         </div>
     )
 }
