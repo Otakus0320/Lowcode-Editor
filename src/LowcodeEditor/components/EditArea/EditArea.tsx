@@ -1,29 +1,10 @@
-import {useEffect} from "react";
 import {useComponentsStore, Component} from "../../stores/components.tsx";
 import {useComponentConfigStore} from "../../stores/component-config.tsx";
 import * as React from "react";
 
 const EditArea = () => {
-    const {components, addComponent} = useComponentsStore();
+    const {components} = useComponentsStore();
     const {componentConfig} = useComponentConfigStore();
-
-    useEffect(() => {
-        addComponent({
-            id: 222,
-            name: 'Container',
-            props: {},
-            children: []
-        }, 1);
-
-        addComponent({
-            id: 333,
-            name: 'Button',
-            props: {
-                text: 'button',
-            },
-            children: []
-        }, 222);
-    }, [])
 
     const renderComponents = (components: Component[]): React.ReactNode=> {
         return components.map((component: Component) => {
@@ -34,6 +15,8 @@ const EditArea = () => {
                 config.component,
                 {
                     key: component.id,
+                    id: component.id,
+                    name: component.name,
                     ...config.defaultProps,
                     ...component.props,
                 },
