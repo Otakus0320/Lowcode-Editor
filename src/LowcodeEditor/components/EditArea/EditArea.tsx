@@ -1,10 +1,13 @@
 import {useComponentsStore, Component} from "../../stores/components.tsx";
 import {useComponentConfigStore} from "../../stores/component-config.tsx";
 import * as React from "react";
+import {MouseEventHandler, useState} from "react";
+import HoverMask from "../HoverMask/HoverMask.tsx";
 
 const EditArea = () => {
     const {components} = useComponentsStore();
     const {componentConfig} = useComponentConfigStore();
+    const [hoverComponentId, setHoverComponentId] = useState<number>();
 
     const renderComponents = (components: Component[]): React.ReactNode=> {
         return components.map((component: Component) => {
@@ -25,10 +28,32 @@ const EditArea = () => {
         })
     }
 
+    const handleMouseOver: MouseEventHandler = (e) => {
+        const path = e.nativeEvent.composedPath();
+
+        for (let i = 0; i < path.length; i++) {
+            const ele = path[i] as HTMLElement;
+
+            const componentId = ele.dataset.componentId;
+            if (componentId) {
+                setHoverComponentId(+componentId);
+                return;
+            }
+        }
+    }
+
     return (
-        <div className="h-[100%]">
-            {/*<pre>{JSON.stringify(components, null, 4)}</pre>*/}
+        <div
+            className="h-[100%] edit-area"
+            onMouseOver={handleMouseOver}
+        >
             {renderComponents(components)}
+            {hoverComponentId && (
+                <HoverMask
+                    containerClassName='edit-area'
+                    componentId={hoverComponentId}
+                />
+            )}
         </div>
     )
 }
