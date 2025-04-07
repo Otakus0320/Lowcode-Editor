@@ -46,14 +46,17 @@ const EditArea = () => {
         <div
             className="h-[100%] edit-area"
             onMouseOver={handleMouseOver}
+            onMouseLeave={() => setHoverComponentId(undefined)}
         >
             {renderComponents(components)}
             {hoverComponentId && (
                 <HoverMask
+                    portalWrapperClassName='portal-wrapper'
                     containerClassName='edit-area'
                     componentId={hoverComponentId}
                 />
             )}
+            <div className='portal-wrapper'></div>
         </div>
     )
 }
